@@ -17,6 +17,7 @@ Schema::create('users', function (Blueprint $table) {
     $table->string('email')->unique();
     $table->timestamp('email_verified_at')->nullable();
     $table->string('password');
+    $table->enum('role', ['admin', 'technician', 'student', 'lecturer'])->default('student');
     $table->rememberToken();
     $table->timestamps();
 });

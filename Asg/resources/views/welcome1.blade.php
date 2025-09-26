@@ -38,10 +38,11 @@
                         Report a Fault <i class="ml-2 fas fa-arrow-right"></i>
                     </button>
                 </a>
-
+                <a href="{{ route('dashboard') }}">
                 <button class="bg-transparent border-2 border-white px-6 py-3 rounded-lg font-semibold hover:bg-white/10 transition duration-300">
                     Check Status <i class="ml-2 fas fa-search"></i>
                 </button>
+                </a>
             </div>
         </div>
     </section>

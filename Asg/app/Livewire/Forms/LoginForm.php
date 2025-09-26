@@ -39,6 +39,19 @@ class LoginForm extends Form
         }
 
         RateLimiter::clear($this->throttleKey());
+
+        $user = Auth::user();
+
+        // ✅ Role-based redirect (Livewire 2.x compatible)
+        if ($user->role === 'technician') {
+            redirect()->route('technician.dashboard');
+        } elseif ($user->role === 'admin') {
+            redirect()->route('admin.dashboard');
+        } elseif ($user->role === 'user') {
+            redirect()->route('dashboard'); // or your main user dashboard
+        } else {
+            redirect('/'); // fallback
+        }
     }
 
     /**

@@ -68,15 +68,19 @@ new #[Layout('layouts.guest')] class extends Component
                 </a>
             @endif
 
-            <div class="flex items-center space-x-3">
-        <a href="{{ route('register') }}" wire:navigate class="text-sm text-indigo-600 hover:text-indigo-500 dark:text-indigo-400">
-            Create account
-        </a>
-
-        <x-primary-button class="ms-3" wire:loading.attr="disabled">
-            <span wire:loading.remove>{{ __('Log in') }}</span>
-            <span wire:loading>{{ __('Logging in...') }}</span>
+<div class="flex items-center space-x-3">
+    <a href="{{ route('register') }}">
+        <x-primary-button type="button">
+            {{ __('Register') }}
         </x-primary-button>
+    </a>
+
+    <x-primary-button class="ms-3" wire:loading.attr="disabled">
+        <span wire:loading.remove>{{ __('Log in') }}</span>
+        <span wire:loading>{{ __('Logging in...') }}</span>
+    </x-primary-button>
+</div>
+
 
         </div>
     </form>

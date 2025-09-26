@@ -12,17 +12,15 @@ return new class extends Migration
     public function up(): void
     {
     Schema::create('report_faults', function (Blueprint $table) {
-        $table->id('evidenceId'); // Primary key
-        $table->string('classroom');
-        $table->string('equipment');
-        $table->enum('priority', ['Low', 'Medium', 'High'])->default('Low');
-        
-        // Link to the user who reported the fault
+        $table->id(); // Primary key
         $table->foreignId('user_id')->constrained()->onDelete('cascade');
-        
+        $table->foreignId('classroom_id')->constrained()->onDelete('cascade');
+        $table->foreignId('equipment_id')->constrained()->onDelete('cascade');
         $table->text('description')->nullable();
+        $table->enum('status', ['pending', 'in_progress', 'completed'])->default('pending'); // <-- add this
         $table->timestamps(); // created_at and updated_at
     });
+
 
     }
 

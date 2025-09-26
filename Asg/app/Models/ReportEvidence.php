@@ -15,6 +15,6 @@ class ReportEvidence extends Model
 
     public function fault()
     {
-        return $this->belongsTo(ReportFault::class, 'report_id');
+        return $this->belongsTo(FaultReport::class, 'report_id');
     }
 }

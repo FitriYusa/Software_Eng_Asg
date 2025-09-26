@@ -11,14 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('Equipment', function (Blueprint $table) {
-            $table->id('equipmentId');
+        Schema::create('equipment', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('classroom_id')->constrained()->onDelete('cascade');
             $table->string('name');
             $table->string('model');
             $table->string('serialNumber');
             $table->date('installationDate');
             $table->date('lastMaintanenceDate');
             $table->string('status');
+            $table->timestamps(); // optional but recommended
         });
     }
 
@@ -27,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('personal_access_tokens');
+        Schema::dropIfExists('equipment');
     }
 };
