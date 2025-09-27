@@ -14,6 +14,17 @@ export default {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+            colors: {
+                text: {
+                    DEFAULT: '#000000', // central text color (black)
+                },
+                background: {
+                    DEFAULT: '#ffffff', // central background color (white)
+                },
+                card: {
+                    DEFAULT: '#003db8ff', // light grey for containers
+                },
+            },
         },
     },
 

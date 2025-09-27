@@ -1,45 +1,46 @@
 <x-app-layout>
-<div class="p-6 space-y-8 bg-gray-50 dark:bg-gray-900 min-h-screen">
+<div class="p-6 space-y-8 bg-white min-h-screen text-black">
 
     {{-- Header --}}
     <div>
-        <h1 class="text-3xl font-extrabold text-gray-800 dark:text-gray-100">Technician Dashboard</h1>
-        <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">Overview of repair tasks and progress.</p>
+    <h1 class="text-3xl font-extrabold text-black">Technician Dashboard</h1>
+    <p class="text-black text-sm mt-1">Overview of repair tasks and progress.</p>
     </div>
 
     {{-- Summary Cards --}}
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-        <div class="bg-white dark:bg-gray-800 shadow rounded-xl p-6 border-l-4 border-indigo-500 flex items-center space-x-4">
-            <div class="p-3 bg-indigo-100 dark:bg-indigo-900 rounded-lg">Total</div>
+        <div class="bg-gray-100 shadow rounded-xl p-6 border-l-4 border-gray-500 flex items-center space-x-4">
+            <div class="p-3 bg-gray-200 rounded-lg">Pending</div>
             <div>
-                <h2 class="text-sm text-gray-500 dark:text-gray-400">Total Tasks</h2>
-                <p class="text-3xl font-bold text-gray-900 dark:text-gray-100 mt-1">{{ $summary['total'] }}</p>
+                <h2 class="text-sm text-black">Pending</h2>
+                <p class="text-3xl font-bold text-black mt-1">{{ $summary['pending'] }}</p>
             </div>
         </div>
-        <div class="bg-white dark:bg-gray-800 shadow rounded-xl p-6 border-l-4 border-yellow-500 flex items-center space-x-4">
-            <div class="p-3 bg-yellow-100 dark:bg-yellow-900 rounded-lg">In Progress</div>
+        <div class="bg-gray-100 shadow rounded-xl p-6 border-l-4 border-yellow-500 flex items-center space-x-4">
+            <div class="p-3 bg-yellow-100 rounded-lg">In Progress</div>
             <div>
-                <h2 class="text-sm text-gray-500 dark:text-gray-400">In Progress</h2>
-                <p class="text-3xl font-bold text-gray-900 dark:text-gray-100 mt-1">{{ $summary['in_progress'] }}</p>
+                <h2 class="text-sm text-black">In Progress</h2>
+                <p class="text-3xl font-bold text-black mt-1">{{ $summary['in_progress'] }}</p>
             </div>
         </div>
-        <div class="bg-white dark:bg-gray-800 shadow rounded-xl p-6 border-l-4 border-gray-500 flex items-center space-x-4">
-            <div class="p-3 bg-gray-200 dark:bg-gray-700 rounded-lg">Pending</div>
+
+        <div class="bg-gray-100 shadow rounded-xl p-6 border-l-4 border-indigo-500 flex items-center space-x-4">
+            <div class="p-3 bg-indigo-100 rounded-lg">Total</div>
             <div>
-                <h2 class="text-sm text-gray-500 dark:text-gray-400">Pending</h2>
-                <p class="text-3xl font-bold text-gray-900 dark:text-gray-100 mt-1">{{ $summary['pending'] }}</p>
+                <h2 class="text-sm text-black">Total Tasks</h2>
+                <p class="text-3xl font-bold text-black mt-1">{{ $summary['total'] }}</p>
             </div>
         </div>
     </div>
 
     {{-- Assigned Repair Tasks --}}
-    <div class="bg-white dark:bg-gray-800 shadow rounded-xl p-6">
-        <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">Assigned Repair Tasks</h2>
+    <div class="bg-gray-100 shadow rounded-xl p-6">
+    <h2 class="text-lg font-semibold text-black mb-4">Assigned Repair Tasks</h2>
 
-        <div class="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700">
-            <table class="min-w-full text-sm divide-y divide-gray-200 dark:divide-gray-700">
-                <thead class="bg-gray-100 dark:bg-gray-700">
-                    <tr class="text-left text-gray-600 dark:text-gray-300">
+        <div class="overflow-x-auto rounded-lg border border-gray-200">
+            <table class="min-w-full text-sm divide-y divide-gray-200">
+                <thead class="bg-gray-200">
+                    <tr class="text-left text-black">
                         <th class="px-4 py-3">Report ID</th>
                         <th class="px-4 py-3">Equipment</th>
                         <th class="px-4 py-3">Classroom</th>
@@ -49,13 +50,13 @@
                         <th class="px-4 py-3">Last Updated</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                <tbody class="bg-white divide-y divide-gray-200">
                     @foreach ($tasks as $task)
-                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition">
-                            <td class="px-4 py-3">{{ $task->id }}</td>
-                            <td class="px-4 py-3">{{ $task->equipment->name }}</td>
-                            <td class="px-4 py-3">{{ $task->equipment->classroom->name }}</td>
-                            <td class="px-4 py-3">
+                        <tr class="hover:bg-gray-100 transition">
+                            <td class="px-4 py-3 text-black">{{ $task->id }}</td>
+                            <td class="px-4 py-3 text-black">{{ $task->equipment->name }}</td>
+                            <td class="px-4 py-3 text-black">{{ $task->equipment->classroom->name }}</td>
+                            <td class="px-4 py-3 text-black">
                                 <form action="{{ route('technician.updateStatus', $task->id) }}" method="POST">
                                     @csrf
                                     <select name="status" onchange="this.form.submit()"
@@ -67,8 +68,8 @@
                                     </select>
                                 </form>
                             </td>
-                            <td class="px-4 py-3">{{ $task->reporter->name }}</td>
-                            <td class="px-4 py-3">
+                            <td class="px-4 py-3 text-black">{{ $task->reporter->name }}</td>
+                            <td class="px-4 py-3 text-black">
                                 @if($task->evidence)
                                     <button onclick="openModal({{ $task->id }})"
                                             class="px-2 py-1 bg-blue-500 text-white text-sm rounded hover:bg-blue-600">
@@ -78,7 +79,7 @@
                                     <span class="text-gray-400 text-sm">No evidence</span>
                                 @endif
                             </td>
-                            <td class="px-4 py-3">{{ $task->updated_at->format('d M Y') }}</td>
+                            <td class="px-4 py-3 text-black">{{ $task->updated_at->format('d M Y') }}</td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -90,9 +91,9 @@
 
 {{-- Evidence Modal --}}
 <div id="evidence-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
-    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg max-w-lg w-full p-6 relative">
-        <button onclick="closeModal()" class="absolute top-2 right-2 text-gray-500 hover:text-gray-800 text-xl">&times;</button>
-        <h2 class="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-100">Evidence</h2>
+    <div class="bg-gray-100 rounded-xl shadow-lg max-w-lg w-full p-6 relative">
+        <button onclick="closeModal()" class="absolute top-2 right-2 text-gray-500 hover:text-black text-xl">&times;</button>
+        <h2 class="text-xl font-semibold mb-4 text-black">Evidence</h2>
         <div id="evidence-content" class="flex justify-center">
             <!-- Image or file will load here -->
         </div>

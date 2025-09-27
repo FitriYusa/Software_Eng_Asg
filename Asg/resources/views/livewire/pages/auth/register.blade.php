@@ -25,7 +25,7 @@ new #[Layout('layouts.guest')] class extends Component
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
-            'role' => ['required', 'in:student,lecturer'], // restrict role
+            'role' => ['required', 'in:student,lecturer,technician,admin'], // restrict role
         ]);
 
         $validated['password'] = Hash::make($validated['password']);
@@ -83,9 +83,11 @@ new #[Layout('layouts.guest')] class extends Component
             <x-input-label for="role" :value="__('Register as')" />
             <select wire:model="role" id="role" name="role"
                 class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                <option value="student">Select</option>
+                <option value="">Select</option>
                 <option value="student">Student</option>
                 <option value="lecturer">Lecturer</option>
+                <option value="technician">Technician</option>
+                <option value="admin">Admin</option>
             </select>
             <x-input-error :messages="$errors->get('role')" class="mt-2" />
         </div>

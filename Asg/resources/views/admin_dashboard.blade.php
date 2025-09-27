@@ -1,28 +1,28 @@
 <x-app-layout>
-    <div class="p-6 space-y-8">
+    <div class="p-6 space-y-8 bg-white min-h-screen text-black">
         <!-- Page Title -->
-        <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100">Admin Dashboard</h2>
+    <h2 class="text-2xl font-bold text-black">Admin Dashboard</h2>
 
         <!-- KPI Cards -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
-                <p class="text-sm text-gray-500">Total Faults</p>
+            <div class="bg-gray-100 shadow rounded-lg p-6">
+                <p class="text-sm text-gray-600">Total Faults</p>
                 <h3 class="text-3xl font-bold text-indigo-600">
                     {{ $summary['total'] ?? 0 }}
                 </h3>
                 <p class="text-xs text-gray-400">Currently under your responsibility</p>
             </div>
 
-            <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
-                <p class="text-sm text-gray-500">Average Completion Time</p>
+            <div class="bg-gray-100 shadow rounded-lg p-6">
+                <p class="text-sm text-gray-600">Average Completion Time</p>
                 <h3 class="text-3xl font-bold text-green-600">
                     {{ $averageCompletionDays }} Days
                 </h3>
                 <p class="text-xs text-gray-400">Based on last 30 days</p>
             </div>
 
-            <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
-                <p class="text-sm text-gray-500">Completed Repairs</p>
+            <div class="bg-gray-100 shadow rounded-lg p-6">
+                <p class="text-sm text-gray-600">Completed Repairs</p>
                 <h3 class="text-3xl font-bold text-red-600">
                     {{ $summary['completed'] ?? 0 }}
                 </h3>
@@ -32,24 +32,24 @@
 
         <!-- Fault Trends -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
-                <h4 class="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-4">Monthly Faults</h4>
+            <div class="bg-gray-100 shadow rounded-lg p-6">
+                <h4 class="text-lg font-semibold text-black mb-4">Monthly Faults</h4>
                 <canvas id="monthlyFaults"></canvas>
             </div>
-            <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
-                <h4 class="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-4">Weekly Workload</h4>
+            <div class="bg-gray-100 shadow rounded-lg p-6">
+                <h4 class="text-lg font-semibold text-black mb-4">Weekly Workload</h4>
                 <canvas id="weeklyFaults"></canvas>
             </div>
         </div>
 
         <!-- Detailed Analysis -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
-                <h4 class="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-4">Repair Time Distribution</h4>
+            <div class="bg-gray-100 shadow rounded-lg p-6">
+                <h4 class="text-lg font-semibold text-black mb-4">Repair Time Distribution</h4>
                 <canvas id="repairTime"></canvas>
             </div>
-            <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
-                <h4 class="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-4">Faults by Equipment</h4>
+            <div class="bg-gray-100 shadow rounded-lg p-6">
+                <h4 class="text-lg font-semibold text-black mb-4">Faults by Equipment</h4>
                 <canvas id="faultsByType"></canvas>
             </div>
         </div>
@@ -139,9 +139,11 @@
                 labels: equipmentTypes,
                 datasets: [{
                     data: faultCounts,
-                    backgroundColor: ['#6366f1', '#f59e0b', '#ef4444', '#10b981'] // add more colors if needed
+                    backgroundColor: ['#ffffffff', '#f59e0b', '#ef4444', '#10b981'] // add more colors if needed
                 }]
             }
         });
     </script>
 </x-app-layout>
+
+    <body class="bg-white">

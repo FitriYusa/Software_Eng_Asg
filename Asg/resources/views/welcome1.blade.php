@@ -23,7 +23,7 @@
                     <a href="#" class="hover:bg-indigo-600 px-3 py-2 rounded">Status</a> --}}
                     <a href="{{ route('login') }}" class="bg-indigo-800 px-4 py-2 rounded hover:bg-indigo-900">Login</a>
                 </div>
-            </div>
+                <body class="bg-white text-black">
         </div>
     </nav>
 

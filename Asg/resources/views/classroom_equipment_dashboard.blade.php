@@ -50,13 +50,13 @@
         }
     </style>
 </head>
-<body class="bg-gray-50">
+<body class="bg-white text-black">
     <div x-data="dashboard()" class="min-h-screen">
         <!-- Header -->
-        <header class="bg-white shadow-sm">
+    <header class="bg-gray-100 shadow-sm">
             <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8 flex justify-between items-center">
                 <div>
-                    <h1 class="text-2xl font-bold text-gray-900">Registered Classroom Equipment</h1>
+                    <h1 class="text-2xl font-bold text-black">Registered Classroom Equipment</h1>
                     <p class="text-gray-600">Equipment management dashboard</p>
                 </div>
                 <div class="flex items-center space-x-4">

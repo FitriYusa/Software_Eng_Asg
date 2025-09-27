@@ -1,7 +1,7 @@
 <x-app-layout>
-<div class="p-6 space-y-8 bg-gray-50 dark:bg-gray-900 min-h-screen">
+<div class="p-6 space-y-8 bg-white min-h-screen text-black">
 
-    <h1 class="text-3xl font-extrabold text-gray-800 dark:text-gray-100">Classroom Equipment Fault System</h1>
+    <h1 class="text-3xl font-extrabold text-black">Classroom Equipment Fault System</h1>
 
     {{-- Success message --}}
     @if(session('success'))
@@ -11,14 +11,14 @@
     @endif
 
     {{-- Report Fault Form --}}
-    <div class="bg-white dark:bg-gray-800 shadow rounded-xl p-6">
-        <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4">Report a Fault</h2>
+    <div class="bg-gray-100 shadow rounded-xl p-6">
+        <h2 class="text-xl font-semibold text-black mb-4">Report a Fault</h2>
         <form action="{{ route('report_fault.store') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
             @csrf
 
             {{-- Classroom --}}
             <div>
-                <label class="block font-medium text-gray-700 dark:text-gray-300">Classroom</label>
+                <label class="block font-medium text-black">Classroom</label>
                 <select id="classroom" name="classroom_id" required
                         class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm">
                     <option value="">Select classroom</option>
@@ -32,7 +32,7 @@
 
             {{-- Equipment --}}
             <div>
-                <label class="block font-medium text-gray-700 dark:text-gray-300">Equipment</label>
+                <label class="block font-medium text-black">Equipment</label>
                 <select id="equipment" name="equipment_id" required
                         class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm">
                     <option value="">Select equipment</option>
@@ -42,14 +42,14 @@
 
             {{-- Description --}}
             <div>
-                <label class="block font-medium text-gray-700 dark:text-gray-300">Description</label>
+                <label class="block font-medium text-black">Description</label>
                 <textarea name="description" placeholder="Describe the issue..." required
                           class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm"></textarea>
             </div>
 
             {{-- Evidence --}}
             <div>
-                <label class="block font-medium text-gray-700 dark:text-gray-300">Upload Evidence</label>
+                <label class="block font-medium text-black">Upload Evidence</label>
                 <input type="file" name="evidence[]" multiple
                        class="mt-1 block w-full text-gray-700 dark:text-gray-300">
             </div>
@@ -57,22 +57,22 @@
             {{-- Buttons --}}
             <div class="flex space-x-2">
                 <button type="submit" class="px-4 py-2 rounded-md bg-indigo-600 text-white font-semibold hover:bg-indigo-700">Submit Fault</button>
-                <button type="reset" class="px-4 py-2 rounded-md bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600">Clear</button>
+                <button type="reset" class="px-4 py-2 rounded-md bg-gray-200 text-black hover:bg-gray-300">Clear</button>
             </div>
         </form>
     </div>
 
     {{-- My Reported Faults --}}
-    <div class="bg-white dark:bg-gray-800 shadow rounded-xl p-6">
-        <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4">My Reported Faults</h2>
+    <div class="bg-gray-100 shadow rounded-xl p-6">
+    <h2 class="text-xl font-semibold text-black mb-4">My Reported Faults</h2>
 
         @if($faults->isEmpty())
-            <p class="text-gray-600 dark:text-gray-400">You have not reported any faults yet.</p>
+            <p class="text-black">You have not reported any faults yet.</p>
         @else
             <div class="overflow-x-auto">
-                <table class="min-w-full text-sm divide-y divide-gray-200 dark:divide-gray-700">
-                    <thead class="bg-gray-100 dark:bg-gray-700">
-                        <tr class="text-left text-gray-600 dark:text-gray-300">
+                <table class="min-w-full text-sm divide-y divide-gray-200">
+                    <thead class="bg-gray-200">
+                        <tr class="text-left text-black">
                             <th class="px-4 py-2">Classroom</th>
                             <th class="px-4 py-2">Equipment</th>
                             <th class="px-4 py-2">Priority</th>
@@ -81,9 +81,9 @@
                             <th class="px-4 py-2">Reported At</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                    <tbody class="bg-white divide-y divide-gray-200">
                         @foreach($faults as $fault)
-                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+                            <tr class="hover:bg-gray-50 transition">
                                 <td class="px-4 py-2">{{ $fault->classroom->building }} - Room {{ $fault->classroom->roomNumber }}</td>
                                 <td class="px-4 py-2">{{ $fault->equipment->name }}</td>
                                 <td class="px-4 py-2">{{ ucfirst($fault->priority ?? 'N/A') }}</td>

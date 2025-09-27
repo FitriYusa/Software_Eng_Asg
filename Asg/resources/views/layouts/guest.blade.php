@@ -14,12 +14,12 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="font-sans antialiased bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500">
+<body class="font-sans antialiased bg-white-500 from-indigo-500 via-purple-500 to-pink-500">
     <div class="min-h-screen flex flex-col items-center justify-center">
         <!-- Logo -->
         <div class="mb-6">
             <a href="/" wire:navigate>
-                <x-application-logo class="w-20 h-20 text-white drop-shadow-lg" />
+                <x-application-logo class="w-50 h-20 text-white drop-shadow-lg" />
             </a>
         </div>
 
