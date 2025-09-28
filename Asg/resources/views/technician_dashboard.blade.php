@@ -37,20 +37,21 @@
         <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">Assigned Repair Tasks</h2>
 
         <div class="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700">
-            <table class="min-w-full text-sm divide-y divide-gray-200 dark:divide-gray-700">
+            <table id="tasks-table" class="min-w-full text-sm divide-y divide-gray-200 dark:divide-gray-700 cursor-pointer">
                 <thead class="bg-gray-100 dark:bg-gray-700">
                     <tr class="text-left text-gray-600 dark:text-gray-300">
-                        <th class="px-4 py-3">Report ID</th>
-                        <th class="px-4 py-3">Equipment</th>
-                        <th class="px-4 py-3">Classroom</th>
-                        <th class="px-4 py-3">Status</th>
-                        <th class="px-4 py-3">Reported By</th>
-                        <th class="px-4 py-3">Evidence</th>
-                        <th class="px-4 py-3">Last Updated</th>
+                        <th class="px-4 py-3">Report ID <span class="sort-arrow"></span></th>
+                        <th class="px-4 py-3">Equipment <span class="sort-arrow"></span></th>
+                        <th class="px-4 py-3">Classroom <span class="sort-arrow"></span></th>
+                        <th class="px-4 py-3">Status <span class="sort-arrow"></span></th>
+                        <th class="px-4 py-3">Reported By <span class="sort-arrow"></span></th>
+                        <th class="px-4 py-3">Description <span class="sort-arrow"></span></th>
+                        <th class="px-4 py-3">Evidence <span class="sort-arrow"></span></th>
+                        <th class="px-4 py-3">Last Updated <span class="sort-arrow"></span></th>
                     </tr>
                 </thead>
                 <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                    @foreach ($tasks as $task)
+                    @foreach ($tasks->sortByDesc('updated_at') as $task)
                         <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition">
                             <td class="px-4 py-3">{{ $task->id }}</td>
                             <td class="px-4 py-3">{{ $task->equipment->name }}</td>
@@ -68,10 +69,12 @@
                                 </form>
                             </td>
                             <td class="px-4 py-3">{{ $task->reporter->name }}</td>
+                            <td class="px-4 py-3">{{ $task->description }}</td>
                             <td class="px-4 py-3">
-                                @if($task->evidence)
-                                    <button onclick="openModal({{ $task->id }})"
-                                            class="px-2 py-1 bg-blue-500 text-white text-sm rounded hover:bg-blue-600">
+                                @if($task->evidences->isNotEmpty())
+                                    <button 
+                                        onclick='openModal({{ $task->id }})'
+                                        class="px-2 py-1 bg-blue-500 text-white text-sm rounded hover:bg-blue-600">
                                         View
                                     </button>
                                 @else
@@ -93,28 +96,44 @@
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg max-w-lg w-full p-6 relative">
         <button onclick="closeModal()" class="absolute top-2 right-2 text-gray-500 hover:text-gray-800 text-xl">&times;</button>
         <h2 class="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-100">Evidence</h2>
-        <div id="evidence-content" class="flex justify-center">
-            <!-- Image or file will load here -->
+        <div id="evidence-content" class="flex flex-col items-center space-y-4">
+            <!-- Evidence items will load here -->
         </div>
     </div>
 </div>
 
 <script>
+    // Map tasks with evidences
+    const tasksEvidences = @json($tasks->keyBy('id')->map(fn($t) => [
+        'report_description' => $t->description,
+        'evidences' => $t->evidences
+    ]));
+
+    // Open evidence modal
     function openModal(taskId) {
         const modal = document.getElementById('evidence-modal');
         const content = document.getElementById('evidence-content');
+        content.innerHTML = '';
 
-        const evidenceData = @json($tasks->keyBy('id')->map(fn($t) => $t->evidence));
+        const taskData = tasksEvidences[taskId];
+        const evidences = taskData.evidences;
+        const reportDesc = taskData.report_description;
 
-        if(evidenceData[taskId]) {
-            const ext = evidenceData[taskId].split('.').pop().toLowerCase();
-            if(['jpg','jpeg','png','gif','webp'].includes(ext)) {
-                content.innerHTML = `<img src="/storage/${evidenceData[taskId]}" class="max-h-96 object-contain" alt="Evidence">`;
-            } else {
-                content.innerHTML = `<a href="/storage/${evidenceData[taskId]}" target="_blank" class="text-blue-500 underline">Download Evidence</a>`;
-            }
+        if (evidences && evidences.length > 0) {
+            evidences.forEach(e => {
+                const ext = e.file_path.split('.').pop().toLowerCase();
+                let html = `<p class="font-semibold text-gray-700 dark:text-gray-200">${reportDesc}</p>`;
+                if(['jpg','jpeg','png','gif','webp'].includes(ext)) {
+                    html += `<img src="/storage/${e.file_path}" class="max-h-64 object-contain rounded" alt="Evidence">`;
+                } else {
+                    html += `<a href="/storage/${e.file_path}" target="_blank" class="text-blue-500 underline">Download Evidence</a>`;
+                }
+                const div = document.createElement('div');
+                div.innerHTML = html;
+                content.appendChild(div);
+            });
         } else {
-            content.innerHTML = '<span class="text-gray-500">No evidence available</span>';
+            content.innerHTML = `<p class="font-semibold text-gray-700 dark:text-gray-200">${reportDesc}</p><span class="text-gray-500">No evidence available</span>`;
         }
 
         modal.classList.remove('hidden');
@@ -126,6 +145,35 @@
         modal.classList.add('hidden');
         modal.classList.remove('flex');
     }
-</script>
 
+    // Table Sorting with arrows
+    document.addEventListener('DOMContentLoaded', () => {
+        const table = document.getElementById('tasks-table');
+        const arrows = table.querySelectorAll('.sort-arrow');
+
+        const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
+
+        const comparer = (idx, asc) => (a, b) => ((v1, v2) => 
+            v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) 
+            ? v1 - v2 
+            : v1.toString().localeCompare(v2)
+        )(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
+
+        Array.from(table.querySelectorAll('th')).forEach((th, index) => {
+            th.addEventListener('click', () => {
+                const tbody = table.querySelector('tbody');
+                const asc = !th.asc;
+                th.asc = asc;
+
+                // Clear all arrows
+                arrows.forEach(a => a.textContent = '');
+                th.querySelector('.sort-arrow').textContent = asc ? '▲' : '▼';
+
+                Array.from(tbody.querySelectorAll('tr'))
+                    .sort(comparer(index, asc))
+                    .forEach(tr => tbody.appendChild(tr));
+            });
+        });
+    });
+</script>
 </x-app-layout>

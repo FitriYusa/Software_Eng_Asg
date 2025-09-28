@@ -31,6 +31,7 @@ class TechnicianDashboardController extends Controller
         ]);
 
         $task = FaultReport::findOrFail($id);
+        $tasks = FaultReport::with('evidences')->get();
         $task->status = $request->status;
         $task->save();
 

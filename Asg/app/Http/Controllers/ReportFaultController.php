@@ -68,7 +68,7 @@ class ReportFaultController extends Controller
             foreach ($request->file('evidence') as $file) {
                 $path = $file->store('evidences', 'public');
                 ReportEvidence::create([
-                    'fault_report_id' => $fault->id,
+                    'report_id' => $fault->id,
                     'file_path'       => $path,
                     'file_type'       => $file->getClientOriginalExtension(),
                 ]);

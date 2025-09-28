@@ -28,7 +28,7 @@ class FaultReport extends Model
 
     public function evidences()
     {
-        return $this->hasMany(ReportEvidence::class);
+        return $this->hasMany(ReportEvidence::class, 'report_id','id');
     }
 
         public function classroom()
@@ -45,6 +45,7 @@ class FaultReport extends Model
 {
     return $this->belongsTo(User::class, 'users_id');
 }
+
 
 
 }

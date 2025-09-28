@@ -10,11 +10,14 @@ class ReportEvidence extends Model
     use HasFactory;
 
     protected $fillable = [
-        'report_id', 'file_path', 'file_type', 'description'
+        'report_id',
+        'file_path', 
+        'file_type', 
+        'description'
     ];
 
     public function fault()
     {
-        return $this->belongsTo(FaultReport::class, 'report_id');
+        return $this->belongsTo(FaultReport::class, 'report_id', 'id');
     }
 }
