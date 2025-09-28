@@ -35,5 +35,10 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password123'),
             'role' => 'student',
         ]);
+    // Create additional random students
+    User::factory(10)->create(['role' => 'student']);
+
+    // Create additional random technicians
+    User::factory(5)->create(['role' => 'technician']);
     }
 }

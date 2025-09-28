@@ -7,22 +7,32 @@ use App\Models\Equipment;
 use App\Models\ReportEvidence;
 use App\Models\Classroom;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ReportFaultController extends Controller
 {
     // Show the report fault form
     public function create()
     {
-        // Eager load classrooms with their equipment
-        $classrooms = Classroom::with('equipment')->get();
+        $user = Auth::user();
 
-        // Get faults for current user, eager load equipment + classroom to avoid N+1
-        $faults = FaultReport::with(['equipment', 'classroom'])
-                    ->where('user_id', auth()->id())
-                    ->orderBy('created_at', 'desc')
-                    ->paginate(5);
+    if ($user->role === 'technician') {
+        return redirect()->route('technician.dashboard');
+    }
 
-        return view('dashboard', compact('classrooms', 'faults'));
+    if ($user->role === 'admin') {
+        return redirect()->route('admin.dashboard');
+    }
+
+    // Student dashboard
+    $classrooms = Classroom::all();
+    $faults = FaultReport::with(['equipment', 'classroom'])
+                ->where('users_id', $user->id)
+                ->orderBy('created_at', 'desc')
+                ->paginate(5);
+    $equipments = \App\Models\Equipment::with('classroom')->get();
+
+    return view('dashboard', compact('classrooms', 'faults', 'equipments'));
     }
 
     // Store a new fault report
@@ -46,7 +56,7 @@ class ReportFaultController extends Controller
 
         // Create the fault report
         $fault = FaultReport::create([
-            'user_id'      => auth()->id(),
+            'users_id'      => auth()->id(),
             'classroom_id' => $request->classroom_id,
             'equipment_id' => $request->equipment_id,
             'description'  => $request->description,
@@ -67,4 +77,6 @@ class ReportFaultController extends Controller
 
         return redirect()->back()->with('success', 'Fault reported successfully!');
     }
+
+    
 }

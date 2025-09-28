@@ -75,7 +75,7 @@
 
 
         // Weekly Workload Bar Chart
-        fetch('/api/weekly-faults')
+        fetch('/weekly-faults')
             .then(response => response.json())
             .then(data => {
                 const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
@@ -133,15 +133,24 @@
         const equipmentTypes = @json($equipmentTypes);
         const faultCounts = @json($faultCounts);
 
-        new Chart(document.getElementById('faultsByType'), {
-            type: 'doughnut',
-            data: {
-                labels: equipmentTypes,
-                datasets: [{
-                    data: faultCounts,
-                    backgroundColor: ['#6366f1', '#f59e0b', '#ef4444', '#10b981'] // add more colors if needed
-                }]
-            }
-        });
+function generateColors(count) {
+    let colors = [];
+    for (let i = 0; i < count; i++) {
+        const hue = Math.floor((360 / count) * i); 
+        colors.push(`hsl(${hue}, 70%, 50%)`);
+    }
+    return colors;
+}
+
+new Chart(document.getElementById('faultsByType'), {
+    type: 'doughnut',
+    data: {
+        labels: equipmentTypes,
+        datasets: [{
+            data: faultCounts,
+            backgroundColor: generateColors(equipmentTypes.length) // auto-generate based on dataset size
+        }]
+    }
+});
     </script>
 </x-app-layout>

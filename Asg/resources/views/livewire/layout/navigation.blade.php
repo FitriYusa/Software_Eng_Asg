@@ -38,6 +38,44 @@ new class extends Component
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
+                    <x-dropdown align="right" width="64">
+        <x-slot name="trigger">
+            <button class="relative inline-flex items-center p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none">
+                <!-- Bell Icon -->
+                <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11
+                             c0-3.07-1.64-5.64-4.5-6.32V4a1.5 1.5 0 00-3 0v.68C7.64
+                             5.36 6 7.92 6 11v3.159c0 .538-.214 1.055-.595
+                             1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                </svg>
+
+                <!-- Unread count badge -->
+                @if(auth()->user()->unreadNotifications->count())
+                    <span class="absolute top-0 right-0 inline-flex items-center
+                                 justify-center px-1.5 py-0.5 text-xs font-bold
+                                 leading-none text-white bg-red-600 rounded-full">
+                        {{ auth()->user()->unreadNotifications->count() }}
+                    </span>
+                @endif
+            </button>
+        </x-slot>
+
+        <x-slot name="content">
+            <div class="max-h-64 overflow-y-auto w-80">
+                @forelse(auth()->user()->unreadNotifications as $notification)
+                    <div class="p-2 bg-gray-100 rounded mb-2">
+                        {{ $notification->data['message'] }}
+                        <span class="text-xs text-gray-500 block">
+                            {{ $notification->created_at->diffForHumans() }}
+                        </span>
+                    </div>
+                @empty
+                    <div class="p-2 text-gray-500">No new notifications</div>
+                @endforelse
+            </div>
+        </x-slot>
+    </x-dropdown>
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\FaultReport;
 use App\Models\Equipment;
+use App\Notifications\FaultCompletedNotification;
 
 class TechnicianDashboardController extends Controller
 {
@@ -33,6 +34,11 @@ class TechnicianDashboardController extends Controller
         $task->status = $request->status;
         $task->save();
 
+        if ($task->status === 'completed' && $task->reporter) {
+            $task->reporter->notify(new FaultCompletedNotification($task));
+        }
+
         return redirect()->back()->with('success', 'Status updated successfully.');
     }
+
 }

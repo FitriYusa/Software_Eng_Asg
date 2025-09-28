@@ -10,9 +10,10 @@ class FaultReport extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
+        'users_id',
         'classroom_id',
         'equipment_id',
+        'assigned_to',
         'description',
         'status',
     ];
@@ -37,7 +38,13 @@ class FaultReport extends Model
 
     public function reporter()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'users_id');
     }
+
+    public function user()
+{
+    return $this->belongsTo(User::class, 'users_id');
+}
+
 
 }

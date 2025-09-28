@@ -9,29 +9,9 @@ use App\Models\Classroom;
 
 use Illuminate\Support\Facades\Auth;
 
-Route::get('/dashboard', function () {
-    $user = Auth::user();
-
-    if ($user->role === 'technician') {
-        return redirect()->route('technician.dashboard');
-    }
-
-    if ($user->role === 'admin') {
-        return redirect()->route('admin.dashboard');
-    }
-
-    // default student/user dashboard
-    $faults = FaultReport::where('user_id', $user->id)
-                ->latest()
-                ->paginate(5);
-
-    $classrooms = Classroom::all();
-    $equipments = \App\Models\Equipment::with('classroom')->get();
-
-    return view('dashboard', compact('faults', 'classrooms','equipments'));
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-
+Route::get('/dashboard', [ReportFaultController::class, 'create'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])
@@ -65,8 +45,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::get('admin_dashboard', [AdminDashboardController::class, 'admin_controller'])->name('admin.dashboard');
+    Route::get('/weekly-faults', [AdminDashboardController::class, 'weeklyFaults']);
 });
-
 
 
 require __DIR__.'/auth.php';

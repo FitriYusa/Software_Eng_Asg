@@ -12,11 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('notifications', function (Blueprint $table) {
-            $table->id('notificationId'); // Primary Key
-            $table->string('title'); // Short title of notification
-            $table->text('message'); // Full notification message
-            $table->dateTime('sentDate'); // Date and time notification was sent
-            $table->boolean('isRead')->default(false); // Status of notification (default: unread)
+            $table->uuid('id')->primary();
+            $table->string('type');
+            $table->morphs('notifiable');
+            $table->text('data');
+            $table->timestamp('read_at')->nullable();
+            $table->timestamps();
         });
     }
 
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('_notification');
+        Schema::dropIfExists('notifications');
     }
 };

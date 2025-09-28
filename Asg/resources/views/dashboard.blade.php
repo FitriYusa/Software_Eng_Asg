@@ -1,7 +1,7 @@
 <x-app-layout>
 <div class="p-6 space-y-8 bg-gray-50 dark:bg-gray-900 min-h-screen">
 
-    <h1 class="text-3xl font-extrabold text-gray-800 dark:text-gray-100">Classroom Equipment Fault System</h1>
+    {{-- <h1 class="text-3xl font-extrabold text-gray-800 dark:text-gray-100">Classroom Equipment Fault System</h1> --}}
 
     {{-- Success message --}}
     @if(session('success'))
@@ -70,7 +70,8 @@
             <p class="text-gray-600 dark:text-gray-400">You have not reported any faults yet.</p>
         @else
             <div class="overflow-x-auto">
-                <table class="min-w-full text-sm divide-y divide-gray-200 dark:divide-gray-700">
+<table class="min-w-full text-sm divide-y divide-gray-200" style="background-color: #8874e4;">
+
                     <thead class="bg-gray-100 dark:bg-gray-700">
                         <tr class="text-left text-gray-600 dark:text-gray-300">
                             <th class="px-4 py-2">Classroom</th>

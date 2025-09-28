@@ -9,7 +9,14 @@ class Equipment extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'classroom_id', 'model', 'serial_number', 'installationDate', 'lastMaintanenceDate', 'status'];
+    protected $fillable = [
+        'classroom_id', 
+        'name',
+        'model', 
+        'serialNumber', 
+        'installationDate', 
+        'lastMaintenanceDate', 
+        'status'];
 
 
     protected $table = 'equipment';

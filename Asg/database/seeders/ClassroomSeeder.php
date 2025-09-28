@@ -43,5 +43,7 @@ class ClassroomSeeder extends Seeder
         foreach ($classrooms as $classroom) {
             Classroom::create($classroom);
         }
+
+        Classroom::factory()->count(6)->create();
     }
 }

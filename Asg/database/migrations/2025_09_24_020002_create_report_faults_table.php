@@ -11,15 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-    Schema::create('report_faults', function (Blueprint $table) {
-        $table->id(); // Primary key
-        $table->foreignId('user_id')->constrained()->onDelete('cascade');
+        Schema::create('report_faults', function (Blueprint $table) {
+        $table->id();
+        $table->foreignId('users_id')->constrained()->onDelete('cascade'); // reporter
         $table->foreignId('classroom_id')->constrained()->onDelete('cascade');
         $table->foreignId('equipment_id')->constrained()->onDelete('cascade');
+        $table->foreignId('assigned_to')->nullable()->constrained('users')->nullOnDelete(); // technician
         $table->text('description')->nullable();
-        $table->enum('status', ['pending', 'in_progress', 'completed'])->default('pending'); // <-- add this
-        $table->timestamps(); // created_at and updated_at
+        $table->enum('status', ['pending', 'in_progress', 'completed'])->default('pending');
+        $table->timestamps();
     });
+
 
 
     }

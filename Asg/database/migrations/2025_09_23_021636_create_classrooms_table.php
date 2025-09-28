@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('classrooms', function (Blueprint $table) {
             $table->id();
-$table->string('building');
-$table->string('floor');
-$table->string('roomNumber');
-$table->unique(['building', 'floor', 'roomNumber']);
+            $table->string('building');
+            $table->string('floor');
+            $table->string('roomNumber');
+            $table->unique(['building', 'floor', 'roomNumber']);
             $table->integer('capacity');
             $table->longText('description')->nullable();
             $table->timestamps(); // creates created_at and updated_at

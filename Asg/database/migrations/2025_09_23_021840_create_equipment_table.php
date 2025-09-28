@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('model');
             $table->string('serialNumber');
             $table->date('installationDate');
-            $table->date('lastMaintanenceDate');
+            $table->date('lastMaintenanceDate');
             $table->string('status');
             $table->timestamps(); // optional but recommended
         });
